@@ -10,7 +10,7 @@
 ## 工具
  idea + git
  
-##脚本
+## 脚本
 ```sql
 create table USER
 (
