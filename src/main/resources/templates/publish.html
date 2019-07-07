@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>中文社区</title>
+    <title>发布-中文社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -41,5 +42,35 @@
         </div>
     </div>
 </nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+            <hr>
+            <form action="">
+                <div class="form-group">
+                    <label for="title">问题标题(简单扼要):</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题">
+                </div>
+                <div class="form-group">
+                    <label for="title">问题补充(必填，参照右侧提示):</label>
+                    <textarea name="description" id="description" class="form-control" placeholder="问题描述" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="title">添加标签</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以','分隔">
+                </div>
+                <button type="submit" class="btn btn-success btn-publish" style="float: right;margin-bottom: 15px">Submit</button>
+            </form>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            问题标题：不超过25字<br>
+            问题补充：详细补充问题内容<br>
+            选择标签：选择一个或多个合适的标签，用逗号分隔，每个标签不超过10个<br>
+        </div>
+    </div>
+</div>
 </body>
 </html>
