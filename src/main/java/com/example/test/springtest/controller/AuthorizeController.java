@@ -61,7 +61,7 @@ public class AuthorizeController {
             userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
             //登录成功，写cookie和session
-            //requeset.getSession().setAttribute("user",githubUser);
+            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         }
         else{
