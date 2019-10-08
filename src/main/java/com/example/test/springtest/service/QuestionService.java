@@ -2,6 +2,8 @@ package com.example.test.springtest.service;
 
 import com.example.test.springtest.dto.PaginationDTO;
 import com.example.test.springtest.dto.QuestionDTO;
+import com.example.test.springtest.exception.CustomizeErrorCode;
+import com.example.test.springtest.exception.CustomizeException;
 import com.example.test.springtest.mapper.QuestionMapper;
 import com.example.test.springtest.mapper.UserMapper;
 import com.example.test.springtest.model.Question;
@@ -93,6 +95,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -117,7 +122,10 @@ public class QuestionService {
             QuestionExample questionExample = new QuestionExample();
             questionExample.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            if(updated != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
