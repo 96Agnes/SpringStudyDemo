@@ -5,6 +5,7 @@ import com.example.test.springtest.dto.AccessTokenDTO;
 import com.example.test.springtest.dto.GithubUser;
 import com.example.test.springtest.mapper.UserMapper;
 import com.example.test.springtest.model.User;
+import com.example.test.springtest.model.UserExample;
 import com.example.test.springtest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.UUID;
 
 /*
@@ -56,7 +58,14 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.CreateOrUpdate(user);
-            user = userMapper.findByAccountId(String.valueOf(githubUser.getId()));
+
+            UserExample userExample = new UserExample();
+            userExample.createCriteria()
+                    .andAccountIdEqualTo(String.valueOf(githubUser.getId()));
+            List<User> users = userMapper.selectByExample(userExample);
+            user = users.get(0);
+
+            //user = userMapper.findByAccountId(String.valueOf(githubUser.getId()));
             request.getSession().setAttribute("user",user);//这里userid set为空
             response.addCookie(new Cookie("token",token));
             return "redirect:/";
