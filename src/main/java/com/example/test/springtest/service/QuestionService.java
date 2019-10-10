@@ -4,6 +4,7 @@ import com.example.test.springtest.dto.PaginationDTO;
 import com.example.test.springtest.dto.QuestionDTO;
 import com.example.test.springtest.exception.CustomizeErrorCode;
 import com.example.test.springtest.exception.CustomizeException;
+import com.example.test.springtest.mapper.QuestionExtMapper;
 import com.example.test.springtest.mapper.QuestionMapper;
 import com.example.test.springtest.mapper.UserMapper;
 import com.example.test.springtest.model.Question;
@@ -24,6 +25,10 @@ public class QuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
+
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
@@ -127,5 +132,13 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incview(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+
     }
 }
