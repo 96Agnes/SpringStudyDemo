@@ -33,6 +33,6 @@ create table USER
 
 ## 命令
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
-
+mvn flyway:migrate
 
 
