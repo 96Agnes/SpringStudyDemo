@@ -47,6 +47,7 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
         //Todo:上面一行代码获取的question的description为null，所以界面上不显示具体内容
+        //caused by : question.description.type is CLOB
         //List<Question> questions = questionMapper.list(offset,size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
@@ -62,7 +63,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO list(long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
         QuestionExample questionExample = new QuestionExample();
@@ -98,7 +99,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -115,6 +116,8 @@ public class QuestionService {
             //第一次创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
             questionMapper.insert(question);
         }else{
             //更新
@@ -134,7 +137,7 @@ public class QuestionService {
         }
     }
 
-    public void incview(Integer id) {
+    public void incview(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
