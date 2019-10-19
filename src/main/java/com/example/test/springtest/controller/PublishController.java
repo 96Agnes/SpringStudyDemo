@@ -60,7 +60,6 @@ public class PublishController {
             return "publish";
         }
         User user = (User)request.getSession().getAttribute("user");
-        //上面拿到的user的id是空的
         if(user == null){
             model.addAttribute("error","用户未登录");
             return "publish";
