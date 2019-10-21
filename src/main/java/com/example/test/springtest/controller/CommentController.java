@@ -1,6 +1,6 @@
 package com.example.test.springtest.controller;
 
-import com.example.test.springtest.dto.CommentDTO;
+import com.example.test.springtest.dto.CommentCreateDTO;
 import com.example.test.springtest.dto.ResultDTO;
 import com.example.test.springtest.exception.CustomizeErrorCode;
 import com.example.test.springtest.model.Comment;
@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class CommentController {
@@ -21,7 +19,7 @@ public class CommentController {
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("user");
         if(user == null){
@@ -29,9 +27,9 @@ public class CommentController {
         }
 
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setContent(commentDTO.getContent());
-        comment.setType(commentDTO.getType());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setContent(commentCreateDTO.getContent());
+        comment.setType(commentCreateDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());
